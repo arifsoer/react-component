@@ -37,3 +37,27 @@
     transform: translateY(0px);
   }
 }
+
+.container {
+  width: 1500px;
+  height: 300px;
+  margin: 0 auto;
+  padding: 15px;
+  background-color: #eeeeee;
+  text-align: center;
+}
+
+.box {
+  margin: 0 auto;
+  margin-bottom: 15px;
+  width: 150px;
+  height: 150px;
+  background-color: #00ffff;
+  transition: width 1s ease-in-out, height 1s ease-in-out, background-color 1s ease-in-out;
+}
+
+.change {
+  background-color: #8b17d8;
+  width: 200px;
+  height: 200px;
+}
