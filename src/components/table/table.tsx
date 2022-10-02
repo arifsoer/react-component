@@ -1,4 +1,4 @@
-import "./table.css";
+import { StyledTable, StyledTh } from "./styled/styledComponent";
 
 interface Props {
   headers: IHeader[];
@@ -16,33 +16,33 @@ const Table = ({ headers }: Props) => {
   headers.forEach((header) => {
     if (header.childs && header.childs.length > 0) {
       mainRow.push(
-        <th key={header.key} colSpan={header.childs.length} className='table-header'>
+        <StyledTh key={header.key} colSpan={header.childs.length}>
           {header.name}
-        </th>,
+        </StyledTh>,
       );
       header.childs.forEach((child) => {
         childRow.push(
-          <th key={child.key} className='table-header'>
+          <StyledTh key={child.key} theme={{ backgroundColor: child.backgroundColor }}>
             {child.name}
-          </th>,
+          </StyledTh>,
         );
       });
     } else {
       mainRow.push(
-        <th key={header.key} rowSpan={level} className='table-header'>
+        <StyledTh key={header.key} rowSpan={level}>
           {header.name}
-        </th>,
+        </StyledTh>,
       );
     }
   });
 
   return (
-    <table className='main-table'>
+    <StyledTable>
       <thead>
         <tr>{mainRow}</tr>
         <tr>{childRow}</tr>
       </thead>
-    </table>
+    </StyledTable>
   );
 };
 
