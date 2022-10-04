@@ -3,14 +3,14 @@ import "./App.css";
 
 import Table from "./components/table/table";
 
-import { tableHeader } from "./dummyData";
+import { tableHeader, tableData } from "./dummyData";
 
 const App = () => {
   const [change, setChange] = useState("change");
 
   return (
     <div className='container'>
-      <Table headers={tableHeader} />
+      <Table headers={tableHeader} datas={tableData} />
     </div>
   );
 };

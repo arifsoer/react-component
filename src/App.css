@@ -40,10 +40,10 @@
 
 .container {
   width: 1500px;
-  height: 300px;
+  min-height: 300px;
   margin: 0 auto;
   padding: 15px;
-  background-color: #eeeeee;
+  background-color: #f7f7f8;
   text-align: center;
 }
 
