@@ -41,6 +41,18 @@ export const StyledTd = styled.td`
     border-right: 0;
     background-color: #d6d8da;
     font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 0;
+  }
+  &.category:hover {
+    cursor: pointer;
+  }
+  &.category svg {
+    transition: transform 0.5s;
+  }
+  &.category svg.rotated {
+    transform: rotate(180deg);
   }
   &.category-extend {
     border-left: 0;

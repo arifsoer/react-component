@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import lodash from "lodash";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 import { StyledTable, StyledTh, StyledTd } from "./styled/styledComponent";
 
@@ -7,7 +9,61 @@ interface Props {
   datas: ITableData[];
 }
 
+interface ICategoryCollapse {
+  category: string;
+  isCollapse: boolean;
+}
+
+interface IFilledData {
+  type: "category" | "value";
+  value: string | ITableData;
+}
+
 const Table = ({ headers, datas }: Props) => {
+  const [categoryCollapse, setCategoryCollapse] = useState<ICategoryCollapse[]>([]);
+  const [filledDatas, setFilledDatas] = useState<IFilledData[]>([]);
+
+  const onClickHandler = (category: string) => {
+    const changedIndex = categoryCollapse.findIndex((cc) => cc.category === category);
+    if (changedIndex >= 0) {
+      const newArr = [...categoryCollapse];
+      newArr[changedIndex].isCollapse = !newArr[changedIndex].isCollapse;
+      setCategoryCollapse(newArr);
+    }
+  };
+
+  const inialCalculation = () => {
+    const grouped = lodash.groupBy(datas, (dt: ITableData) => dt.category);
+    // TODO : may be can't use lodash
+    const tempFilledDatas: IFilledData[] = [];
+    const initCategoryCollapse: ICategoryCollapse[] = [];
+    for (const key in grouped) {
+      if (Object.prototype.hasOwnProperty.call(grouped, key)) {
+        const els = grouped[key];
+        tempFilledDatas.push({
+          type: "category",
+          value: key,
+        });
+        initCategoryCollapse.push({
+          category: key,
+          isCollapse: false,
+        });
+        els.forEach((el) => {
+          tempFilledDatas.push({
+            type: "value",
+            value: el,
+          });
+        });
+      }
+    }
+    setFilledDatas(tempFilledDatas);
+    setCategoryCollapse(initCategoryCollapse);
+  };
+
+  useEffect(() => {
+    inialCalculation();
+  }, []);
+
   // Header Handle
   const orderedKey: string[] = [];
   let level = 1;
@@ -43,30 +99,23 @@ const Table = ({ headers, datas }: Props) => {
   });
 
   // Data Handle
-  const grouped = lodash.groupBy(datas, (dt: ITableData) => dt.category);
-  const filledDatas: { type: "category" | "value"; value: string | ITableData }[] = [];
-  for (const key in grouped) {
-    if (Object.prototype.hasOwnProperty.call(grouped, key)) {
-      const els = grouped[key];
-      filledDatas.push({
-        type: "category",
-        value: key,
-      });
-      els.forEach((el) => {
-        filledDatas.push({
-          type: "value",
-          value: el,
-        });
-      });
-    }
-  }
   const columnLength = datas.length > 0 ? Object.keys(datas[0]).length : 0;
   const bodyTable: JSX.Element[] = [];
   filledDatas.forEach((fd, ind) => {
     if (fd.type === "category") {
+      const catState = categoryCollapse.find((cc) => cc.category === fd.value);
+      let iconClass = "";
+      if (catState) {
+        iconClass = catState.isCollapse ? "rotated" : "";
+      }
       bodyTable.push(
         <tr key={fd.type + ind}>
-          <StyledTd className='category'>{fd.value as string}</StyledTd>
+          <StyledTd
+            className='category'
+            onClick={() => onClickHandler(catState !== undefined ? catState.category : "")}
+          >
+            {fd.value as string} {<ArrowDropDownIcon className={iconClass} />}
+          </StyledTd>
           <StyledTd className='category-extend' colSpan={columnLength - 1}></StyledTd>
         </tr>,
       );
@@ -79,7 +128,6 @@ const Table = ({ headers, datas }: Props) => {
       bodyTable.push(<tr key={fd.type + ind}>{cels}</tr>);
     }
   });
-  console.log(bodyTable);
 
   return (
     <StyledTable>
