@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 
 import Table from "./components/table/table";
+import Sanbox from "./components/sandbox";
 
 import { tableHeader, tableData } from "./dummyData";
 
@@ -10,7 +11,8 @@ const App = () => {
 
   return (
     <div className='container'>
-      <Table headers={tableHeader} datas={tableData} />
+      {/* <Table headers={tableHeader} datas={tableData} /> */}
+      <Sanbox />
     </div>
   );
 };
