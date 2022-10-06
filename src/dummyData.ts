@@ -152,3 +152,36 @@ export const tableData: ITableData[] = [
     earlyCI: "-",
   },
 ];
+
+export const graphListData: IGraphListData[] = [
+  {
+    name: "AIA Guaranteed",
+    category: "Hospitalization",
+    value: 60,
+  },
+  {
+    name: "AIA Guaranteed",
+    category: "Hospital Inc.",
+    value: 50,
+  },
+  {
+    name: "AIA Guaranteed",
+    category: "Death",
+    value: 20,
+  },
+  {
+    name: "Direct - AIA Term Cover",
+    category: "Death",
+    value: 60,
+  },
+  {
+    name: "AIA Guaranteed",
+    category: "Early CI",
+    value: 30,
+  },
+  {
+    name: "AIA Guaranteed",
+    category: "Major CI",
+    value: 40,
+  },
+];
